@@ -1,0 +1,8 @@
+@_HostAddress = https://localhost:7117
+
+
+GET {{LinkDev.Talabat.APIs_HostAddress}}/weatherforecast/
+
+
+
+###
