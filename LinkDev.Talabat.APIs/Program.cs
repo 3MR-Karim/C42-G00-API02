@@ -59,6 +59,9 @@ namespace LinkDev.Talabat.APIs
            
                 if(pendingMigrations.Any())
                 await dbContext.Database.MigrateAsync(); //Update-Database
+
+
+                await StoreContextSeed.SeedAsync(dbContext);
             }
             catch (Exception ex) {
                 var logger = loggerFactory.CreateLogger<Program>();
