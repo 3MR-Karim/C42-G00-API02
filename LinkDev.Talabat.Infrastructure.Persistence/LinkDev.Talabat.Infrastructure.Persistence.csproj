@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="_Data\Migration\" />
-    <Folder Include="_Data\Seeds\" />
   </ItemGroup>
 
   <ItemGroup>
