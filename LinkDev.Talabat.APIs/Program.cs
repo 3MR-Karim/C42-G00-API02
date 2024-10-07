@@ -1,6 +1,7 @@
 
 using LinkDev.Talabat.Infrastructure.Persistence;
 using LinkDev.Talabat.Infrastructure.Persistence._Data;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -8,8 +9,22 @@ namespace LinkDev.Talabat.APIs
 {
     public class Program
     {
-        public static void Main(string[] args)
+        //[FromServices]
+        //public static StoreContext StoreContext { get; set; } = null!;
+        //static Program() { }    
+
+        public static async Task  Main(string[] args
+            /*StoreContext dbContext */
+            )
         {
+
+
+            //StoreContext dbContext  /*new StoreContext()*/;
+;
+
+
+
+
             var webApplicationBuilder = WebApplication.CreateBuilder(args);
 
 
@@ -32,6 +47,28 @@ namespace LinkDev.Talabat.APIs
             #endregion
 
             var app = webApplicationBuilder.Build();
+
+            var scope = app.Services.CreateAsyncScope();
+            var services = scope.ServiceProvider;
+            var dbContext = services.GetRequiredService<StoreContext>();
+            // Ask Runtime Env for Object from " StoreContext" Serivce Explicitly.
+            var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+            //var logger = services.GetRequiredService<ILogger>();        
+            try { 
+                var pendingMigrations = dbContext.Database.GetPendingMigrations();
+           
+                if(pendingMigrations.Any())
+                await dbContext.Database.MigrateAsync(); //Update-Database
+            }
+            catch (Exception ex) {
+                var logger = loggerFactory.CreateLogger<Program>();
+                logger.LogError(ex, "an error has been occured during applying the migrations."); 
+            }
+            finally
+            {
+                await scope.DisposeAsync();
+            }
+
 
             #region Configure Kestral Middlwares
 
