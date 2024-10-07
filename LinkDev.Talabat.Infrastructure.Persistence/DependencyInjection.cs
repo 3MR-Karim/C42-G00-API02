@@ -1,4 +1,5 @@
-﻿using LinkDev.Talabat.Infrastructure.Persistence._Data;
+﻿using LinkDev.Talabat.Core.Domain.Contracts;
+using LinkDev.Talabat.Infrastructure.Persistence._Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,7 +21,12 @@ namespace LinkDev.Talabat.Infrastructure.Persistence
             /*, ContextLifetime : ServiceLifetime.Scoped,optionsLifetime:ServiceLifetime.Scoped*/);
 
 
-          return services;
+
+            services.AddScoped<IStoreContextInitializer, StoreContextInitializer>();
+
+            services.AddScoped(typeof(IStoreContextInitializer),typeof(StoreContextInitializer));
+            //services.AddScoped(typeof(IGenericRepositoy<>),typeof(IGenericRepositoy<>));
+            return services;
         }
 
 
