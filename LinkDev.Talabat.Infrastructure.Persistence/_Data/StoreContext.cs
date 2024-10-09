@@ -1,4 +1,5 @@
 ﻿
+using LinkDev.Talabat.Core.Domain.Common;
 using LinkDev.Talabat.Core.Domain.Entities.Products;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence._Data
 {
     public class StoreContext : DbContext
     {
-        public StoreContext() { }   
-
+  
         public StoreContext(DbContextOptions<StoreContext> options) :base(options)
         {
             
@@ -27,5 +27,6 @@ namespace LinkDev.Talabat.Infrastructure.Persistence._Data
         public DbSet<ProductBrand>Brand { get; set; }
         public DbSet<ProductCategory>Categories { get; set; }
 
+      
     }
 }

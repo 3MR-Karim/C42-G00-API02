@@ -1,4 +1,5 @@
 
+using LinkDev.Talabat.Core.Application.Abstraction;
 using LinkDev.Talabat.Infrastructure.Persistence;
 using LinkDev.Talabat.Infrastructure.Persistence._Data;
 using Microsoft.AspNetCore.Mvc;
@@ -47,7 +48,12 @@ namespace LinkDev.Talabat.APIs
             #endregion
 
             var app = webApplicationBuilder.Build();
-
+            webApplicationBuilder.Services.AddEndpointsApiExplorer().AddSwaggerGen();
+            //______________________________________
+            webApplicationBuilder.Services.AddScoped(typeof(ILoggedInUserService), typeof(ILoggedInUserService));
+            webApplicationBuilder.Services.AddHttpContextAccessor();
+            //______________________________________
+            webApplicationBuilder.Services.AddPersisitenceServices(webApplicationBuilder.Configuration);
             var scope = app.Services.CreateAsyncScope();
             var services = scope.ServiceProvider;
             var dbContext = services.GetRequiredService<StoreContext>();
